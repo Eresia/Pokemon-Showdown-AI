@@ -5,8 +5,8 @@ objectDir=bin
 srcDir=src
 headDir=include
 
-CFLAGS=-od $(objectDir)
-EFLAGS=
+CFLAGS=-od $(objectDir) -g -I=$(scriptDir)/src
+EFLAGS=-g
 
 srcExt=.d
 headerExt=
