@@ -4,23 +4,12 @@ import std.stdio;
 import std.string;
 import std.conv;
 
-import socket.network;
-import input.manual_input;
+import game_controller.game_loop;
 
 int main(string[] args){
 
-	Network net = new Network(8787);
-	char[] data;
-	net.waitConnection();
-
-	ManualInput mi = new ManualInput(net);
-	mi.start();
-	while(true){
-		data = net.receiveData();
-		if(data == null){
-			break;
-		}
-	};
+	GameLoop game = new GameLoop(8787);
+	game.start();
 
 	return 0;
 }

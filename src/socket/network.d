@@ -4,6 +4,8 @@ import std.stdio;
 import std.string;
 import std.socket;
 
+import socket.data_traitment;
+
 class Network{
 
 	private:
@@ -11,10 +13,13 @@ class Network{
 		Socket socket;
 		Socket client;
 
+		DataTraitment data;
+
 	public:
 
-		this(ushort port){
+		this(ushort port = 8787){
 			this.port = port;
+
 			socket = new TcpSocket();
 			socket.setOption(SocketOptionLevel.SOCKET, SocketOption.REUSEADDR, true);
 			socket.bind(new InternetAddress(port));
@@ -35,12 +40,12 @@ class Network{
 		}
 
 		char[] receiveData(){
-			char[] data = new char[1024];
+			char[] data = new char[4096];
 			auto result = client.receive(data);
 			if(result == 0){
 				return null;
 			}
-			writeln("Result : ", result, "	Data received : ", data[0..result]);
+			//writeln("Result : ", result, "	Data received : ", data[0..result]);
 			return data[0..result];
 		}
 }

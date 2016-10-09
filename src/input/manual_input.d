@@ -19,7 +19,12 @@ class ManualInput : Thread{
 				if(inp == "q"){
 					break;
 				}
-				net.sendData(inp.dup);
+				if(inp == "auto"){
+					
+				}
+				else{
+					net.sendData(inp.dup);
+				}
 			};
 		}
 
