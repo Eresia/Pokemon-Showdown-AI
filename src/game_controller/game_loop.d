@@ -6,9 +6,11 @@ import std.conv;
 import core.thread;
 
 import socket.network;
-import socket.data_traitment;
+import data.data_storage;
+import data.data_traitment;
 
-import ai.ai_controller;
+import ai.action_chooser;
+import ai.ai_controller_ou;
 import ai.ai_action;
 
 import input.manual_input;
@@ -16,9 +18,10 @@ import input.manual_input;
 class GameLoop : Thread{
 
 	private:
-		DataTraitment data;
+		DataTraitment dataTraitment;
+		DataStorage dataStorage;
 		Network network;
-		AIController ai;
+		ActionChooser ai;
 
 		ManualInput mi;
 
@@ -33,10 +36,13 @@ class GameLoop : Thread{
 					break;
 				}
 				else{
-					AIAction action = data.parseData(to!string(tempData));
-					string result = ai.makeAction(action);
+					AIAction action = dataTraitment.parseData(to!string(tempData));
+					string[] result = ai.makeAction(action);
 					if(result != null){
-						network.sendData(result.dup);
+						foreach(string s; result){
+							writeln("Send to server : ", s);
+							network.sendData(s.dup);
+						}
 					}
 				}
 			};
@@ -45,9 +51,10 @@ class GameLoop : Thread{
 	public:
 		this(ushort port){
 			super(&run);
-			data = new DataTraitment();
+			dataStorage = new DataStorage();
+			dataTraitment = new DataTraitment(dataStorage);
 			network = new Network(port);
-			ai = new AIController(data);
+			ai = new AIControllerOU(dataStorage);
 			mi = new ManualInput(network);
 		}
 

@@ -4,16 +4,12 @@ import std.stdio;
 import std.string;
 import std.socket;
 
-import socket.data_traitment;
-
 class Network{
 
 	private:
 		ushort port;
 		Socket socket;
 		Socket client;
-
-		DataTraitment data;
 
 	public:
 
