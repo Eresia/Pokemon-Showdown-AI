@@ -1,5 +1,7 @@
 module data.pokemon.team;
 
+import std.stdio;
+
 import data.pokemon.pokemon_condition;
 
 class Team {

@@ -3,6 +3,7 @@ module ai.action_chooser;
 import std.conv;
 
 import ai.ai_action;
+import ai.chooser.chooser;
 
 import data.data_storage;
 
@@ -10,6 +11,7 @@ abstract class ActionChooser {
 
 	protected :
 		DataStorage data;
+		Chooser chooser;
 
 		abstract string[] beginBattle();
 
@@ -25,8 +27,9 @@ abstract class ActionChooser {
 		}
 
 	public:
-		this(DataStorage data){
+		this(DataStorage data, Chooser chooser){
 			this.data = data;
+			this.chooser = chooser;
 		}
 
 		abstract string[] makeAction(AIAction action);

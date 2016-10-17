@@ -12,6 +12,7 @@ import data.data_traitment;
 import ai.action_chooser;
 import ai.ai_controller_ou;
 import ai.ai_action;
+import ai.chooser.ou.random_chooser.ou_random_chooser;
 
 import input.manual_input;
 
@@ -54,7 +55,7 @@ class GameLoop : Thread{
 			dataStorage = new DataStorage();
 			dataTraitment = new DataTraitment(dataStorage);
 			network = new Network(port);
-			ai = new AIControllerOU(dataStorage);
+			ai = new AIControllerOU(dataStorage, new OURandomChooser());
 			mi = new ManualInput(network);
 		}
 

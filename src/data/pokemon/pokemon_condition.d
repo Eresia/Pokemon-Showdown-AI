@@ -1,5 +1,7 @@
 module data.pokemon.pokemon_condition;
 
+import std.stdio;
+
 class PokemonCondition {
 
 	private:
@@ -11,6 +13,9 @@ class PokemonCondition {
 
 
 	public:
+
+		static final int NB_MAX_ATTACK = 4;
+
 		this(string id, string details, int maxHP, int number = -1){
 			this.id = id;
 			this.details = details;
@@ -27,6 +32,7 @@ class PokemonCondition {
 		}
 
 		void setHP(int hp){
+			writeln("NEW HP for ", id, " is : ", hp);
 			this.actualHP = hp;
 		}
 

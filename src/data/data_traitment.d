@@ -82,7 +82,10 @@ class DataTraitment {
 									int idPlayer = to!int(data[line][1][1]);
 									if(idPlayer == dataStorage.getIdPlayer()){
 										if(pokemonDead){
+											writeln("Pokemon Dead, force Switch");
 											dataStorage.getTeam().getPokemon(1).setHP(0);
+											dataStorage.setWaitForSwitch(true);
+											action = AIAction.FORCE_SWITCH;
 										}
 										else{
 											int newHP = to!int(tokenise(data[line][2], "/".dup)[0]);
@@ -113,26 +116,26 @@ class DataTraitment {
 		AIAction parseTeam(char[] data){
 			AIAction action = AIAction.UNKNOW;
 
-			JSONValue parsed = parseJSON(data);
-
-			write("Force Switch ? : ");
-
-			try{
-				writeln(parsed["forceSwitch"].array()[0].toString());
-				if(parsed["forceSwitch"].array()[0].toString() == "true"){
-					dataStorage.setWaitForSwitch(true);
-					action = AIAction.FORCE_SWITCH;
-				}
-				else{
-					dataStorage.setWaitForSwitch(false);
-				}
-			} catch(JSONException e){
-				writeln("false : ");
-				dataStorage.setWaitForSwitch(false);
-			}
-
 			if(dataStorage.isNeedRefreshTeam()){
 				dataStorage.setNeedRefreshTeam(false);
+
+				JSONValue parsed = parseJSON(data);
+
+				write("Force Switch ? : ");
+
+				try{
+					writeln(parsed["forceSwitch"].array()[0].toString());
+					if(parsed["forceSwitch"].array()[0].toString() == "true"){
+						dataStorage.setWaitForSwitch(true);
+						action = AIAction.FORCE_SWITCH;
+					}
+					else{
+						dataStorage.setWaitForSwitch(false);
+					}
+				} catch(JSONException e){
+					writeln("false : ");
+					dataStorage.setWaitForSwitch(false);
+				}
 
 				try{
 					dataStorage.getTeam().cleanTeam();
@@ -176,15 +179,20 @@ class DataTraitment {
 			AIAction action;
 
 			if(data[0] == '>'){
-				string halfSeparator = "\n";
-				char[][] halfParsed = tokenise(data.dup, halfSeparator.dup);
-				char[][][] parsed;
-				for(int i = 0; i < halfParsed.length; i++){
-					parsed ~= tokenise(halfParsed[i], separator.dup);
-				}
-				dataStorage.setBattleName(to!string(parsed[0][0]));
-				action = updateData(parsed);
+				string divisorSeparator = ">";
+				char[][] diviseRequest = tokenise(data.dup, divisorSeparator.dup);
+				for(int j = 0; j < diviseRequest.length; j++){
+					string halfSeparator = "\n";
+					char[][] halfParsed = tokenise(diviseRequest[j], halfSeparator.dup);
+					char[][][] parsed;
+					for(int i = 0; i < halfParsed.length; i++){
+						parsed ~= tokenise(halfParsed[i], separator.dup);
+					}
+					writeln("\n\nRequest : ", parsed[0][0]);
 
+					dataStorage.setBattleName(to!string(parsed[0][0]));
+					action = updateData(parsed);
+				}
 			}
 			else{
 				char[][] parsed = tokenise(data.dup, separator.dup);

@@ -2,6 +2,7 @@ module ai.classic_action_chooser;
 
 import ai.action_chooser;
 import ai.ai_action;
+import ai.chooser.ou.ou_chooser;
 
 import data.data_storage;
 
@@ -11,8 +12,8 @@ abstract class ClassicActionChooser : ActionChooser {
 		abstract string[] lead();
 
 	public:
-		this(DataStorage data){
-			super(data);
+		this(DataStorage data, OUChooser chooser){
+			super(data, chooser);
 		}
 
 		override string[] makeAction(AIAction action){
