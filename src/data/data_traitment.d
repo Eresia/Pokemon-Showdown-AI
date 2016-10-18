@@ -128,6 +128,7 @@ class DataTraitment {
 
 			JSONValue parsed = parseJSON(data);
 
+			/*******************************Parse Attacks*****************************/
 			try{
 				auto parsedAttacks = parsed["active"].array()[0]["moves"].array();
 				for(int i = 0; i < PokemonCondition.NB_MAX_ATTACK; i++){
@@ -149,26 +150,51 @@ class DataTraitment {
 						}
 					}
 
-					dataStorage.setAttackDisable(i, disable);
+					dataStorage.getActivePokemon().setAttackDisable(i, disable);
 				}
 			}catch(JSONException e){
 				writeln("No active pokemon");
 			}
 
+			/*******************************Check Mega*****************************/
+			bool canMega = false;
+
 			try{
 				if(parsed["active"].array()[0]["canMegaEvo"].toString() == "true"){
 					writeln("Can Mega");
-					dataStorage.setCanMega(true);
+					canMega = true;
 				}
 				else{
 					writeln("Can't Mega");
-					dataStorage.setCanMega(false);
+					canMega = false;
 				}
 			}catch(JSONException e){
 				writeln("Can't Mega");
-				dataStorage.setCanMega(false);
+				canMega = false;
 			}
 
+			dataStorage.getActivePokemon().setCanMega(canMega);
+
+			/*******************************Check Trapped*****************************/
+			bool trapped = false;
+
+			try{
+				if(parsed["active"].array()[0]["trapped"].toString() == "true"){
+					writeln("Is trapped");
+					trapped = true;
+				}
+				else{
+					writeln("Is not trapped");
+					trapped = false;
+				}
+			}catch(JSONException e){
+				writeln("Is not trapped");
+				trapped = false;
+			}
+
+			dataStorage.getActivePokemon().setTrapped(trapped);
+
+			/*******************************Refresh Team*****************************/
 			if(dataStorage.isNeedRefreshTeam()){
 				dataStorage.setNeedRefreshTeam(false);
 

@@ -2,6 +2,7 @@ module data.data_storage;
 
 import data.pokemon.team;
 import data.pokemon.pokemon_condition;
+import data.pokemon.active_pokemon;
 
 class DataStorage {
 
@@ -18,16 +19,14 @@ class DataStorage {
 		int turn;
 
 		Team team;
-
-		bool[] disableAttacks;
-		bool mega;
+		ActivePokemon activePokemon;
 
 	public:
 		this(){
 			connected = false;
 		 	pseudo = "Guest";
 			team = new Team();
-			disableAttacks = new bool[PokemonCondition.NB_MAX_ATTACK];
+			activePokemon = new ActivePokemon();
 			cleanInformation();
 		}
 
@@ -39,12 +38,7 @@ class DataStorage {
 			idPlayer = -1;
 			turnShift = 0;
 			team.cleanTeam();
-
-			for(int i = 0; i < disableAttacks.length; i++){
-				disableAttacks[i] = false;
-			}
-
-			mega = false;
+			activePokemon.cleanInformation();
 		}
 
 		/*==========Getters===========*/
@@ -80,12 +74,8 @@ class DataStorage {
 			return team;
 		}
 
-		bool IsAttackDisable(int i){
-			return disableAttacks[i-1];
-		}
-
-		bool canMega(){
-			return mega;
+		ActivePokemon getActivePokemon(){
+			return activePokemon;
 		}
 
 		/*==========Setters===========*/
@@ -130,13 +120,5 @@ class DataStorage {
 
 		void setTurnShift(int shift){
 			turnShift = shift;
-		}
-
-		void setAttackDisable(int i, bool isDisable){
-			disableAttacks[i] = isDisable;
-		}
-
-		void setCanMega(bool mega){
-			this.mega = mega;
 		}
 	}

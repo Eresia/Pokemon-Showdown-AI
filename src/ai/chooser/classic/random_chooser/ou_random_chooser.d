@@ -27,9 +27,9 @@ class OURandomChooser : ClassicChooser{
 
 			do{
 				move = uniform(0, PokemonCondition.NB_MAX_ATTACK)+1;
-			}while(data.IsAttackDisable(move));
+			}while(data.getActivePokemon().IsAttackDisable(move));
 
-			if(data.canMega()){
+			if(data.getActivePokemon().canMega()){
 				mega = " mega";
 			}
 			return "move " ~ to!string(move) ~ mega;
