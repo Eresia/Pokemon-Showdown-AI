@@ -23,11 +23,16 @@ class OURandomChooser : ClassicChooser{
 
 		override string fight(DataStorage data){
 			int move;
+			string mega = "";
 
 			do{
 				move = uniform(0, PokemonCondition.NB_MAX_ATTACK)+1;
 			}while(data.IsAttackDisable(move));
-			return "move " ~ to!string(move);
+
+			if(data.canMega()){
+				mega = " mega";
+			}
+			return "move " ~ to!string(move) ~ mega;
 		}
 
 		override int forceSwitch(DataStorage data){

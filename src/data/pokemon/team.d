@@ -38,9 +38,11 @@ class Team {
 		}
 
 		void switchPokemon(int pokemon){
-			PokemonCondition temp = pokemons[0];
-			pokemons[0] = pokemons[pokemon-1];
-			pokemons[pokemon-1] = temp;
+			if(pokemons.length > 0){
+				PokemonCondition temp = pokemons[0];
+				pokemons[0] = pokemons[pokemon-1];
+				pokemons[pokemon-1] = temp;
+			}
 		}
 
 		void cleanTeam(){
