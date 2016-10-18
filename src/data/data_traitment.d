@@ -131,10 +131,22 @@ class DataTraitment {
 			try{
 				auto parsedAttacks = parsed["active"].array()[0]["moves"].array();
 				for(int i = 0; i < PokemonCondition.NB_MAX_ATTACK; i++){
-					bool disable = false;
-					writeln(parsedAttacks[i]["move"], " : isDisable ? : ", parsedAttacks[i]["disabled"].toString());
-					if(parsedAttacks[i]["disabled"].toString() == "true"){
+					bool disable;
+					if(parsedAttacks.length <= i){
 						disable = true;
+					}
+					else{
+						try{
+							writeln(parsedAttacks[i]["move"], " : isDisable ? : ", parsedAttacks[i]["disabled"].toString());
+							if(parsedAttacks[i]["disabled"].toString() == "true"){
+								disable = true;
+							}
+							else{
+								disable = false;
+							}
+						}catch(JSONException e){
+							disable = false;
+						}
 					}
 
 					dataStorage.setAttackDisable(i, disable);
