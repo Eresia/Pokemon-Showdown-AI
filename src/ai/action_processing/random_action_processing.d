@@ -1,17 +1,19 @@
-module ai.random_action_chooser;
+module ai.action_processing.random_action_processing;
 
-import ai.action_chooser;
+import ai.action_processing.action_processing;
 import ai.ai_action;
+
+import ai.chooser.chooser;
 
 import data.data_storage;
 
-abstract class RandomActionChooser : ActionChooser {
+abstract class RandomActionProcessing : ActionProcessing {
 
 	protected :
 
 	public:
-		this(DataStorage data){
-			super(data);
+		this(DataStorage data, Chooser chooser){
+			super(data, chooser);
 		}
 
 		override string[] makeAction(AIAction action){

@@ -9,10 +9,10 @@ import socket.network;
 import data.data_storage;
 import data.data_traitment;
 
-import ai.action_chooser;
-import ai.ai_controller_ou;
+import ai.action_processing.action_processing;
+import ai.action_processing.controller.ai_controller_ou;
 import ai.ai_action;
-import ai.chooser.ou.random_chooser.ou_random_chooser;
+import ai.chooser.classic.random_chooser.ou_random_chooser;
 
 import input.manual_input;
 
@@ -22,7 +22,7 @@ class GameLoop : Thread{
 		DataTraitment dataTraitment;
 		DataStorage dataStorage;
 		Network network;
-		ActionChooser ai;
+		ActionProcessing ai;
 
 		ManualInput mi;
 

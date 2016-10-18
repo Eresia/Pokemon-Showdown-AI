@@ -1,4 +1,4 @@
-module ai.action_chooser;
+module ai.action_processing.action_processing;
 
 import std.conv;
 
@@ -7,7 +7,7 @@ import ai.chooser.chooser;
 
 import data.data_storage;
 
-abstract class ActionChooser {
+abstract class ActionProcessing {
 
 	protected :
 		DataStorage data;

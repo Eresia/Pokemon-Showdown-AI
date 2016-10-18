@@ -1,18 +1,18 @@
-module ai.classic_action_chooser;
+module ai.action_processing.classic_action_processing;
 
-import ai.action_chooser;
+import ai.action_processing.action_processing;
 import ai.ai_action;
-import ai.chooser.ou.ou_chooser;
+import ai.chooser.classic.classic_chooser;
 
 import data.data_storage;
 
-abstract class ClassicActionChooser : ActionChooser {
+abstract class ClassicActionProcessing : ActionProcessing {
 
 	protected :
 		abstract string[] lead();
 
 	public:
-		this(DataStorage data, OUChooser chooser){
+		this(DataStorage data, ClassicChooser chooser){
 			super(data, chooser);
 		}
 

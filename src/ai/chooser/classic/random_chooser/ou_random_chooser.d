@@ -1,4 +1,4 @@
-module ai.chooser.ou.random_chooser.ou.random_chooser;
+module ai.chooser.classic.random_chooser.ou_random_chooser;
 
 import std.random;
 import std.conv;
@@ -7,9 +7,9 @@ import data.data_storage;
 import data.pokemon.team;
 import data.pokemon.pokemon_condition;
 
-import ai.chooser.ou.ou_chooser;
+import ai.chooser.classic.classic_chooser;
 
-class OURandomChooser : OUChooser{
+class OURandomChooser : ClassicChooser{
 
 	public:
 
@@ -22,7 +22,12 @@ class OURandomChooser : OUChooser{
 		}
 
 		override string fight(DataStorage data){
-			return "move " ~ to!string(uniform(0, PokemonCondition.NB_MAX_ATTACK)+1);
+			int move;
+
+			do{
+				move = uniform(0, PokemonCondition.NB_MAX_ATTACK)+1;
+			}while(data.IsAttackDisable(move));
+			return "move " ~ to!string(move);
 		}
 
 		override int forceSwitch(DataStorage data){

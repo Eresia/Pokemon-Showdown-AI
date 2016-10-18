@@ -3,12 +3,13 @@ module ai.ai_controller_rand;
 import std.stdio;
 import std.conv;
 
-import ai.random_action_chooser;
+import ai.action_processing.random_action_processing;
+import ai.chooser.chooser;
 import ai.ai_action;
 
 import data.data_storage;
 
-class AIControllerRand : RandomActionChooser {
+class AIControllerRand : RandomActionProcessing {
 
 	protected:
 
@@ -32,8 +33,8 @@ class AIControllerRand : RandomActionChooser {
 		}
 
 	public:
-		this(DataStorage data){
-			super(data);
+		this(DataStorage data, Chooser chooser){
+			super(data, chooser);
 		}
 
 }

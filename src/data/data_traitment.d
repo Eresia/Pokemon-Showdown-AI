@@ -62,6 +62,7 @@ class DataTraitment {
 					}
 					break;
 				case "choice":
+					bool endOfFight = false;
 					writeln("Subrequest : choice");
 
 					for(int line = 2; line < data.length; line++){
@@ -93,17 +94,26 @@ class DataTraitment {
 										}
 									}
 									break;
+								case "win":
+									writeln("End of Fight");
+									endOfFight = true;
+									break;
 								default:
 
 							}
 						}
 					}
-					if(!dataStorage.isWaitForSwitch()){
-						writeln("Fight");
-						action = AIAction.FIGHT;
+					if(!endOfFight){
+						if(!dataStorage.isWaitForSwitch()){
+							writeln("Fight");
+							action = AIAction.FIGHT;
+						}
+						else{
+							dataStorage.setWaitForSwitch(false);
+						}
 					}
 					else{
-						dataStorage.setWaitForSwitch(false);
+						action = AIAction.BEGIN;
 					}
 					break;
 				default:
@@ -116,10 +126,39 @@ class DataTraitment {
 		AIAction parseTeam(char[] data){
 			AIAction action = AIAction.UNKNOW;
 
+			JSONValue parsed = parseJSON(data);
+
+			try{
+				auto parsedAttacks = parsed["active"].array()[0]["moves"].array();
+				for(int i = 0; i < PokemonCondition.NB_MAX_ATTACK; i++){
+					bool disable = false;
+					writeln(parsedAttacks[i]["move"], " : isDisable ? : ", parsedAttacks[i]["disabled"].toString());
+					if(parsedAttacks[i]["disabled"].toString() == "true"){
+						disable = true;
+					}
+
+					dataStorage.setAttackDisable(i, disable);
+				}
+			}catch(JSONException e){
+				writeln("No active pokemon");
+			}
+
+			try{
+				if(parsed["active"].array()[0]["canMegaEvo"].toString() == "true"){
+					writeln("Can Mega");
+					dataStorage.setCanMega(true);
+				}
+				else{
+					writeln("Can't Mega");
+					dataStorage.setCanMega(false);
+				}
+			}catch(JSONException e){
+				writeln("Can't Mega");
+				dataStorage.setCanMega(false);
+			}
+
 			if(dataStorage.isNeedRefreshTeam()){
 				dataStorage.setNeedRefreshTeam(false);
-
-				JSONValue parsed = parseJSON(data);
 
 				write("Force Switch ? : ");
 
@@ -152,10 +191,10 @@ class DataTraitment {
 						int maxHP = to!int(maxHPString[1..(maxHPString.length-1)]);
 						PokemonCondition newPokemon = new PokemonCondition(id, details, maxHP, i+1);
 						dataStorage.getTeam().addPokemon(newPokemon);
-						if(parsedTeam[i]["active"].toString() == "true"){
+						/*if(parsedTeam[i]["active"].toString() == "true"){
 							int active = to!int(dataStorage.getTeam().teamLength());
 							dataStorage.setActivePokemon(active);
-						}
+						}*/
 					}
 
 				} catch(JSONException e){

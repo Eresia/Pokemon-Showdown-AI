@@ -4,20 +4,22 @@ import std.stdio;
 import std.conv;
 import std.random;
 
-import ai.classic_action_chooser;
+import ai.action_processing.classic_action_processing;
 import ai.ai_action;
-import ai.chooser.ou.ou_chooser;
+import ai.chooser.classic.classic_chooser;
 
 import data.data_storage;
 import data.pokemon.team;
 
-class AIControllerOU : ClassicActionChooser {
+class AIControllerOU : ClassicActionProcessing {
 
 	private:
 
 	protected:
 
 		override string[] beginBattle(){
+
+			data.cleanInformation();
 
 			data.incrementTurnShift();
 
@@ -34,7 +36,7 @@ class AIControllerOU : ClassicActionChooser {
 		override string[] lead(){
 			string[] msg = new string[1];
 
-			OUChooser leadChooser = cast(OUChooser) chooser;
+			ClassicChooser leadChooser = cast(ClassicChooser) chooser;
 
 			int choice = leadChooser.lead(data);
 
@@ -70,7 +72,7 @@ class AIControllerOU : ClassicActionChooser {
 		}
 
 	public:
-		this(DataStorage data, OUChooser chooser){
+		this(DataStorage data, ClassicChooser chooser){
 			super(data, chooser);
 		}
 
