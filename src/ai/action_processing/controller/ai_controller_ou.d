@@ -29,7 +29,8 @@ class AIControllerOU : ClassicActionProcessing {
 			string pseudo = "eresias";
 
 			msg[0] = "/utm " ~ f.readln();
-			msg[1] = "/challenge " ~ pseudo ~ ", ou";
+			//msg[1] = "/challenge " ~ pseudo ~ ", ou";
+			msg[1] = "/challenge " ~ pseudo ~ ", gen7pokebankanythinggoes";
 			return msg;
 		}
 

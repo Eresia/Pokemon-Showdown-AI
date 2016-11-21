@@ -11,12 +11,12 @@ import game_controller.game_loop;
 
 int main(string[] args){
 
-	//GameLoop game = new GameLoop(8787);
-	//game.start();
+	GameLoop game = new GameLoop(8787);
+	game.start();
 
-	char[] data = cast(char[]) read("usefool/pokedex.json");
+	//char[] data = cast(char[]) read("useful/pokedex.json");
 
-	JSONValue parsed = parseJSON(data);
+	//JSONValue parsed = parseJSON(data);
 
 	return 0;
 }
