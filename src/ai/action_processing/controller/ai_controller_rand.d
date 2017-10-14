@@ -16,7 +16,8 @@ class AIControllerRand : RandomActionProcessing {
 		override string[] beginBattle(){
 
 			string[] msg = new string[1];
-			msg[0] = "/challenge eresias, randombattle";
+			msg[0] = "/challenge eresias, gen7randombattle";
+			writeln("Coucou");
 			return msg;
 		}
 

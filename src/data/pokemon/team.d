@@ -11,7 +11,7 @@ class Team {
 
 	public:
 
-		static final int NB_MAX_POKEMON = 6;
+		static const int NB_MAX_POKEMON = 6;
 
 		this(){
 

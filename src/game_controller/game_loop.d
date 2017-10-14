@@ -39,6 +39,7 @@ class GameLoop : Thread{
 				else{
 					AIAction action = dataTraitment.parseData(to!string(tempData));
 					string[] result = ai.makeAction(action);
+					writeln(result);
 					if(result != null){
 						foreach(string s; result){
 							writeln("Send to server : ", s);

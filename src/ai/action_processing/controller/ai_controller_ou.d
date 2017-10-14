@@ -3,6 +3,8 @@ module ai.ai_controller_ou;
 import std.stdio;
 import std.conv;
 import std.random;
+import std.string;
+import std.file;
 
 import ai.action_processing.classic_action_processing;
 import ai.ai_action;
@@ -20,17 +22,16 @@ class AIControllerOU : ClassicActionProcessing {
 		override string[] beginBattle(){
 
 			data.cleanInformation();
-
 			data.incrementTurnShift();
-
 			string fileName = "exemple_team.txt";
-			File f = File(fileName, "r");
+			//File f = File(fileName, "r");
 			string[] msg = new string[2];
 			string pseudo = "eresias";
 
-			msg[0] = "/utm " ~ f.readln();
+			//msg[0] = "/utm " ~ f.readln();
+			msg[0] = "/utm " ~ readText(fileName);
 			//msg[1] = "/challenge " ~ pseudo ~ ", ou";
-			msg[1] = "/challenge " ~ pseudo ~ ", gen7pokebankanythinggoes";
+			msg[1] = "/challenge " ~ pseudo ~ ", gen7ou";
 			return msg;
 		}
 

@@ -1,0 +1,22 @@
+dmd -of"bin/ai_action.obj" -c "src/ai/ai_action.d" -g -Isrc
+dmd -of"bin/action_processing.obj" -c "src/ai/action_processing/action_processing.d" -g -Isrc
+dmd -of"bin/classic_action_processing.obj" -c "src/ai/action_processing/classic_action_processing.d" -g -Isrc
+dmd -of"bin/random_action_processing.obj" -c "src/ai/action_processing/random_action_processing.d" -g -Isrc
+dmd -of"bin/ai_controller_ou.obj" -c "src/ai/action_processing/controller/ai_controller_ou.d" -g -Isrc
+dmd -of"bin/ai_controller_rand.obj" -c "src/ai/action_processing/controller/ai_controller_rand.d" -g -Isrc
+dmd -of"bin/chooser.obj" -c "src/ai/chooser/chooser.d" -g -Isrc
+dmd -of"bin/classic_chooser.obj" -c "src/ai/chooser/classic/classic_chooser.d" -g -Isrc
+dmd -of"bin/ou_random_chooser.obj" -c "src/ai/chooser/classic/random_chooser/ou_random_chooser.d" -g -Isrc
+dmd -of"bin/data_storage.obj" -c "src/data/data_storage.d" -g -Isrc
+dmd -of"bin/data_traitment.obj" -c "src/data/data_traitment.d" -g -Isrc
+dmd -of"bin/base_ability.obj" -c "src/data/capacity/base_ability.d" -g -Isrc
+dmd -of"bin/move.obj" -c "src/data/capacity/move.d" -g -Isrc
+dmd -of"bin/active_pokemon.obj" -c "src/data/pokemon/active_pokemon.d" -g -Isrc
+dmd -of"bin/pokemon_condition.obj" -c "src/data/pokemon/pokemon_condition.d" -g -Isrc
+dmd -of"bin/team.obj" -c "src/data/pokemon/team.d" -g -Isrc
+dmd -of"bin/type.obj" -c "src/data/type/type.d" -g -Isrc
+dmd -of"bin/game_loop.obj" -c "src/game_controller/game_loop.d" -g -Isrc
+dmd -of"bin/manual_input.obj" -c "src/input/manual_input.d" -g -Isrc
+dmd -of"bin/main.obj" -c "src/main/main.d" -g -Isrc
+dmd -of"bin/network.obj" -c "src/socket/network.d" -g -Isrc
+dmd -oftest.exe  bin/ai_action.obj  bin/action_processing.obj  bin/classic_action_processing.obj  bin/random_action_processing.obj  bin/ai_controller_ou.obj  bin/ai_controller_rand.obj  bin/chooser.obj  bin/classic_chooser.obj  bin/ou_random_chooser.obj  bin/data_storage.obj  bin/data_traitment.obj  bin/base_ability.obj  bin/move.obj  bin/active_pokemon.obj  bin/pokemon_condition.obj  bin/team.obj  bin/type.obj  bin/game_loop.obj  bin/manual_input.obj  bin/main.obj  bin/network.obj -g

@@ -14,7 +14,7 @@ class PokemonCondition {
 
 	public:
 
-		static final int NB_MAX_ATTACK = 4;
+		static const int NB_MAX_ATTACK = 4;
 
 		this(string id, string details, int maxHP, int number = -1){
 			this.id = id;

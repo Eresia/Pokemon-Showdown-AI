@@ -31,8 +31,11 @@ class Network{
 		}
 
 		long sendData(char[] data){
-			writeln("Data send : ", data);
-			return client.send(data);
+			if(data.length != 0){
+				writeln("Data send : ", data);
+				return client.send(data);
+			}
+			return 0;
 		}
 
 		char[] receiveData(){
