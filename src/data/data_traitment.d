@@ -42,6 +42,11 @@ class DataTraitment {
 		AIAction updateData(char[][][] data){
 			AIAction action = AIAction.UNKNOW;
 
+			if(data.length < 2){
+				writeln("ALERT : Parsing Data - Bad Size of data");
+				return AIAction.UNKNOW;
+			}
+
 			switch(data[1][0]){
 				case "init":
 					writeln("Subrequest : init");
@@ -49,7 +54,12 @@ class DataTraitment {
 					break;
 				case "request":
 					writeln("Subrequest : request");
-					action = parseTeam(data[1][1]);
+					if(data[1].length > 1){
+						action = parseTeam(data[1][1]);
+					}
+					else{
+						writeln("ALERT : Type Request - Bad Size of data");
+					}
 
 					break;
 				case "player":
