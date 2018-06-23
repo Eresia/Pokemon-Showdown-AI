@@ -22,7 +22,7 @@ abstract class ActionProcessing {
 		string[] makeSwitch(int newPokemon){
 			string[] msg = new string[1];
 			data.getTeam().switchPokemon(newPokemon);
-			msg[0] = "/choose switch " ~ to!string(newPokemon) ~ "|" ~ to!string(data.getTurn() * 2 + 1);
+			msg[0] = "/choose switch " ~ to!string(newPokemon) ~ "|" ~ to!string(data.getRqid());
 			return msg;
 		}
 

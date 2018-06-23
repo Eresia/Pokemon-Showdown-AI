@@ -16,11 +16,11 @@ class PokemonCondition {
 
 		static const int NB_MAX_ATTACK = 4;
 
-		this(string id, string details, int maxHP, int number = -1){
+		this(string id, string details, int maxHP, int actualHP, int number = -1){
 			this.id = id;
 			this.details = details;
 			this.maxHP = maxHP;
-			this.actualHP = maxHP;
+			this.actualHP = actualHP;
 			this.number = number;
 		}
 

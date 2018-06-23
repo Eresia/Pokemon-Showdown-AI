@@ -22,7 +22,6 @@ class AIControllerOU : ClassicActionProcessing {
 		override string[] beginBattle(){
 
 			data.cleanInformation();
-			data.incrementTurnShift();
 			string fileName = "exemple_team.txt";
 			//File f = File(fileName, "r");
 			string[] msg = new string[2];
@@ -53,7 +52,7 @@ class AIControllerOU : ClassicActionProcessing {
 					msg[0] ~= "1";
 				}
 			}
-			msg[0] ~= "|3";
+			msg[0] ~= "|2";
 			return msg;
 		}
 
@@ -62,7 +61,7 @@ class AIControllerOU : ClassicActionProcessing {
 
 			string move = chooser.fight(data);
 
-			msg[0] = "/choose " ~ move ~ "|" ~ to!string(data.getTurn() * 2 + 1);
+			msg[0] = "/choose " ~ move ~ "|" ~ to!string(data.getRqid());
 			return msg;
 		}
 

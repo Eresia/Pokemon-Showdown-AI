@@ -8,15 +8,12 @@ class DataStorage {
 
 	private:
 
-		int turnShift;
-
 		bool connected;
-		bool waitForSwitch;
 		bool needRefreshTeam;
 		string pseudo;
 		string battleName;
 		int idPlayer;
-		int turn;
+		int rqid;
 
 		Team team;
 		ActivePokemon activePokemon;
@@ -31,12 +28,9 @@ class DataStorage {
 		}
 
 		void cleanInformation(){
-			turn = 0;
 			battleName = "Not defined";
-			waitForSwitch = false;
 			needRefreshTeam = true;
 			idPlayer = -1;
-			turnShift = 0;
 			team.cleanTeam();
 			activePokemon.cleanInformation();
 		}
@@ -44,10 +38,6 @@ class DataStorage {
 		/*==========Getters===========*/
 		bool isConnected(){
 			return connected;
-		}
-
-		bool isWaitForSwitch(){
-			return waitForSwitch;
 		}
 
 		bool isNeedRefreshTeam(){
@@ -66,10 +56,6 @@ class DataStorage {
 			return idPlayer;
 		}
 
-		int getTurn(){
-			return turn + turnShift;
-		}
-
 		Team getTeam(){
 			return team;
 		}
@@ -78,16 +64,13 @@ class DataStorage {
 			return activePokemon;
 		}
 
+		int getRqid(){
+			return rqid;
+		}
+
 		/*==========Setters===========*/
 		void setConnected(bool connected){
 			this.connected = connected;
-		}
-
-		void setWaitForSwitch(bool waitForSwitch){
-			if(!this.waitForSwitch && waitForSwitch){
-				incrementTurnShift();
-			}
-			this.waitForSwitch = waitForSwitch;
 		}
 
 		void setNeedRefreshTeam(bool needRefreshTeam){
@@ -106,19 +89,7 @@ class DataStorage {
 			this.idPlayer = idPlayer;
 		}
 
-		void setTurn(int turn){
-			this.turn = turn;
-		}
-
-		void incrementTurnShift(){
-			incrementTurnShift(1);
-		}
-
-		void incrementTurnShift(int shift){
-			setTurnShift(turnShift + shift);
-		}
-
-		void setTurnShift(int shift){
-			turnShift = shift;
+		void setRqid(int rqid){
+			this.rqid = rqid;
 		}
 	}

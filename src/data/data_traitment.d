@@ -46,6 +46,10 @@ class DataTraitment {
 				writeln("ALERT : Parsing Data - Bad Size of data");
 				return AIAction.UNKNOW;
 			}
+			else if(data[1].length < 1){
+				writeln("ALERT : Parsing Data - Bad Size of subdata");
+				return AIAction.UNKNOW;
+			}
 
 			switch(data[1][0]){
 				case "init":
@@ -67,74 +71,46 @@ class DataTraitment {
 					if(data[1][1] == "p2"){
 						writeln("Lead");
 						action = AIAction.LEAD;
-						writeln("Turn 1");
-						dataStorage.setTurn(1);
 					}
 					break;
-				case "choice":
+				case "move":
 					bool endOfFight = false;
-					writeln("Subrequest : choice");
+					writeln("Subrequest : move");
 
 					for(int line = 2; line < data.length; line++){
 						if(data[line].length > 0){
 							switch(data[line][0]){
-								case "turn":
+								/*case "turn":
 									int turn = to!int(data[line][1]);
 									writeln("Turn : ", turn);
 									dataStorage.setTurn(turn);
-									break;
-								case "-damage":
-									bool pokemonDead = (find(data[line][2], "fnt").length > 0);
-
-									if(pokemonDead){
-										dataStorage.setWaitForSwitch(true);
-									}
-
-									int idPlayer = to!int(data[line][1][1]);
-									if(idPlayer == dataStorage.getIdPlayer()){
-										if(pokemonDead){
-											writeln("Pokemon Dead, force Switch");
-											dataStorage.getTeam().getPokemon(1).setHP(0);
-											dataStorage.setWaitForSwitch(true);
-											action = AIAction.FORCE_SWITCH;
-										}
-										else{
-											int newHP = to!int(tokenise(data[line][2], "/".dup)[0]);
-											dataStorage.getTeam().getPokemon(1).setHP(newHP);
-										}
-									}
-									break;
+									break;*/
 								case "win":
 									writeln("End of Fight");
-									endOfFight = true;
+									action = AIAction.BEGIN;
 									break;
 								default:
-
+									break;
 							}
 						}
 					}
-					if(!endOfFight){
-						if(!dataStorage.isWaitForSwitch()){
-							writeln("Fight");
-							action = AIAction.FIGHT;
-						}
-						else{
-							dataStorage.setWaitForSwitch(false);
-						}
-					}
-					else{
-						action = AIAction.BEGIN;
-					}
+					break;
+				case "win":
+					writeln("End of Fight");
+					action = AIAction.BEGIN;
+					break;
+				case "error":
+					writeln("ERROR : " ~ data[1][1]);
 					break;
 				default:
-					writeln("Unknow subrequest");
+					writeln("Unknow subrequest : " ~ data[1][0]);
 			}
 
 			return action;
 		}
 
 		AIAction parseTeam(char[] data){
-			AIAction action = AIAction.UNKNOW;
+			AIAction action = AIAction.FIGHT;
 
 			JSONValue parsed = parseJSON(data);
 
@@ -204,25 +180,27 @@ class DataTraitment {
 
 			dataStorage.getActivePokemon().setTrapped(trapped);
 
-			/*******************************Refresh Team*****************************/
-			if(dataStorage.isNeedRefreshTeam()){
-				dataStorage.setNeedRefreshTeam(false);
+			/*******************************Force Switch*****************************/
 
-				write("Force Switch ? : ");
+			write("Force Switch ? : ");
 
 				try{
 					writeln(parsed["forceSwitch"].array()[0].toString());
 					if(parsed["forceSwitch"].array()[0].toString() == "true"){
-						dataStorage.setWaitForSwitch(true);
 						action = AIAction.FORCE_SWITCH;
+						writeln("true");
 					}
 					else{
-						dataStorage.setWaitForSwitch(false);
+						writeln("false");
 					}
 				} catch(JSONException e){
-					writeln("false : ");
-					dataStorage.setWaitForSwitch(false);
+					writeln("false");
 				}
+
+			/*******************************Refresh Team*****************************/
+			dataStorage.setNeedRefreshTeam(true);
+			if(dataStorage.isNeedRefreshTeam()){
+				dataStorage.setNeedRefreshTeam(false);
 
 				try{
 					dataStorage.getTeam().cleanTeam();
@@ -235,9 +213,29 @@ class DataTraitment {
 					for(int i = 0; i < Team.NB_MAX_POKEMON; i++){
 						string id = parsedTeam[i]["ident"].str();
 						string details = parsedTeam[i]["details"].str();
-						string maxHPString = find(parsedTeam[i]["condition"].str(), "/");
-						int maxHP = to!int(maxHPString[1..(maxHPString.length-1)]);
-						PokemonCondition newPokemon = new PokemonCondition(id, details, maxHP, i+1);
+						char[][] condition = tokenise(parsedTeam[i]["condition"].str().dup, " ".dup);
+
+						int actualHP;
+						int maxHP;
+
+						if(condition.length > 1){
+							if(condition[1] == "fnt"){
+								actualHP = 0;
+								maxHP = 0;
+							}
+							else{
+								char[][] hpStrings = tokenise(condition[0], "/".dup);
+								actualHP = to!int(hpStrings[0]);
+								maxHP = to!int(hpStrings[1]);
+							}
+						}
+						else{
+							char[][] hpStrings = tokenise(condition[0], "/".dup);
+							actualHP = to!int(hpStrings[0]);
+							maxHP = to!int(hpStrings[1]);
+						}
+
+						PokemonCondition newPokemon = new PokemonCondition(id, details, maxHP, actualHP, i+1);
 						dataStorage.getTeam().addPokemon(newPokemon);
 						/*if(parsedTeam[i]["active"].toString() == "true"){
 							int active = to!int(dataStorage.getTeam().teamLength());
@@ -250,8 +248,11 @@ class DataTraitment {
 				}
 			}
 			else{
-				writeln("Not need refresh team");
+				writeln("No need refresh team");
 			}
+
+			/*******************************Get Rqid*****************************/
+			dataStorage.setRqid(cast(int) parsed["rqid"].integer());
 
 			return action;
 		}
@@ -266,7 +267,7 @@ class DataTraitment {
 			AIAction action;
 
 			if(data[0] == '>'){
-				string divisorSeparator = ">";
+				/*string divisorSeparator = ">";
 				char[][] diviseRequest = tokenise(data.dup, divisorSeparator.dup);
 				for(int j = 0; j < diviseRequest.length; j++){
 					string halfSeparator = "\n";
@@ -276,10 +277,28 @@ class DataTraitment {
 						parsed ~= tokenise(halfParsed[i], separator.dup);
 					}
 					writeln("\n\nRequest : ", parsed[0][0]);
+					writeln("\n\nTEST : ", halfParsed[1]);
 
 					dataStorage.setBattleName(to!string(parsed[0][0]));
 					action = updateData(parsed);
+				}*/
+
+				data = chompPrefix(data, "<");
+				//char[][] diviseRequest = tokenise(data.dup, divisorSeparator.dup);
+				string halfSeparator = "\n";
+				char[][] halfParsed = tokenise(data.dup, halfSeparator.dup);
+				char[][][] parsed;
+				for(int i = 0; i < halfParsed.length; i++){
+					char[][] result = tokenise(halfParsed[i], separator.dup);
+					if(result.length > 0){
+						parsed ~= result;
+					}
 				}
+				writeln("\n\nRequest : ", parsed[0][0]);
+				
+
+				dataStorage.setBattleName(to!string(parsed[0][0]));
+				action = updateData(parsed);
 			}
 			else{
 				char[][] parsed = tokenise(data.dup, separator.dup);
@@ -304,7 +323,7 @@ class DataTraitment {
 							action = AIAction.UNKNOW;
 							break;
 						default:
-							writeln("Not know the request");
+							writeln("Unknow the request : " ~ parsed[0]);
 							action = AIAction.UNKNOW;
 					}
 				}

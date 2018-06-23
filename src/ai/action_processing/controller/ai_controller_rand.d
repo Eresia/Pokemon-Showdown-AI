@@ -23,7 +23,7 @@ class AIControllerRand : RandomActionProcessing {
 
 		override string[] fight(){
 			string[] msg = new string[1];
-			msg[0] = "/choose move 1|" ~ to!string(data.getTurn());
+			msg[0] = "/choose move 1|" ~ to!string(data.getRqid());
 			return msg;
 		}
 

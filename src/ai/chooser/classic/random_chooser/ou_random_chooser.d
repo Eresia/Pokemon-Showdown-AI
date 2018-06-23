@@ -39,7 +39,7 @@ class OURandomChooser : ClassicChooser{
 			int choice = -1;
 			do{
 				choice = uniform(0, Team.NB_MAX_POKEMON)+1;
-			}while(data.getTeam().getPokemon(choice).isDead());
+			}while(data.getTeam().getPokemon(choice).isDead() || (data.getActivePokemon() == data.getTeam().getPokemon(choice)));
 			return choice;
 		}
 }
