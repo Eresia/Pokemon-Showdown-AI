@@ -24,7 +24,7 @@ class ActivePokemon{
 			trapped = false;
 		}
 
-		bool IsAttackDisable(int i){
+		bool isAttackDisable(int i){
 			return disableAttacks[i-1];
 		}
 

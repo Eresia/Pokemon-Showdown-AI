@@ -1,4 +1,4 @@
-module ai.chooser.classic.random_chooser.ou_random_chooser;
+module ai.chooser.classic.better_chooser.ou_best_attack_chooser;
 
 import std.random;
 import std.conv;
@@ -9,7 +9,7 @@ import data.pokemon.pokemon_condition;
 
 import ai.chooser.classic.classic_chooser;
 
-class OURandomChooser : ClassicChooser{
+class OUBestAttackChooser : ClassicChooser{
 
 	public:
 

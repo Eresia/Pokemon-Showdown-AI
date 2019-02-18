@@ -9,7 +9,7 @@ import std.file;
 
 import game_controller.game_loop;
 
-int main(string[] args){
+int main(/*string[] args*/){
 
 	GameLoop game = new GameLoop(8787);
 	game.start();

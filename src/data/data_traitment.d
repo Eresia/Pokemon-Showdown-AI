@@ -78,7 +78,6 @@ class DataTraitment {
 					}
 					break;
 				case "move":
-					bool endOfFight = false;
 					writeln("Subrequest : move");
 
 					for(int line = 2; line < data.length; line++){

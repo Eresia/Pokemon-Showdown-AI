@@ -25,7 +25,7 @@ class AIControllerOU : ClassicActionProcessing {
 			string fileName = "exemple_team.txt";
 			//File f = File(fileName, "r");
 			string[] msg = new string[2];
-			string pseudo = "eresias";
+			immutable string pseudo = "eresias";
 
 			//msg[0] = "/utm " ~ f.readln();
 			msg[0] = "/utm " ~ readText(fileName);
@@ -39,7 +39,7 @@ class AIControllerOU : ClassicActionProcessing {
 
 			ClassicChooser leadChooser = cast(ClassicChooser) chooser;
 
-			int choice = leadChooser.lead(data);
+			immutable int choice = leadChooser.lead(data);
 
 			makeSwitch(choice);
 			msg[0] = "/team " ~ to!string(choice);
@@ -59,7 +59,7 @@ class AIControllerOU : ClassicActionProcessing {
 		override string[] fight(){
 			string[] msg = new string[1];
 
-			string move = chooser.fight(data);
+			immutable string move = chooser.fight(data);
 
 			msg[0] = "/choose " ~ move ~ "|" ~ to!string(data.getRqid());
 			return msg;
@@ -67,7 +67,7 @@ class AIControllerOU : ClassicActionProcessing {
 
 		override string[] forceSwitch(){
 
-			int choicePokemon = chooser.forceSwitch(data);
+			immutable int choicePokemon = chooser.forceSwitch(data);
 
 			return makeSwitch(choicePokemon);
 		}
