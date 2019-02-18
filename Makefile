@@ -10,7 +10,7 @@ CFLAGS=-g -I"$(srcDir)"
 EFLAGS=-g
 
 srcExt=.d
-objExt=.obj
+objExt=.o
 
 launcher=test.exe
 
@@ -22,11 +22,16 @@ objects=$(foreach file, $(srcFile:$(srcExt)=$(objExt)), $(objectDir)/$(notdir $(
 
 all: $(launcher)
 
+win_only: compilation
+	echo "$(CC) -of"$(launcher)" $(objects) $(EFLAGS)" >> compilation.bat
+
 #all:
 #	@echo $(scriptDir)/$(objectDir)
 
-$(launcher): compilation
-	echo "$(CC) -of"$(launcher)" $(objects) $(EFLAGS)" >> compilation.bat
+$(launcher): win_only
+	chmod +x compilation.bat
+	./compilation.bat
+
 
 compilation:
 	@mkdir $(objectDir) -p
@@ -40,11 +45,12 @@ compilation:
 		fi; \
 	done
 
-clean_all: clean
+clean_all: clean clean_Makefile
 	rm -f $(launcher)
 
 clean:
 	rm -rf $(objectDir)
+	rm -f compilation.bat
 
 clean_error:
 	@for dir in $(directories); do \

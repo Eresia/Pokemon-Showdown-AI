@@ -25,7 +25,7 @@ class ManualInput : Thread{
 				else{
 					net.sendData(inp.dup);
 				}
-			};
+			}
 		}
 
 		string takeInput(){

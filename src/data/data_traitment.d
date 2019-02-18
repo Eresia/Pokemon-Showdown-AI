@@ -22,10 +22,12 @@ class DataTraitment {
 			char[][] res = null;
 			int start = -1;
 
-			foreach(int i, char c; input) {
+			foreach(size_t i, char c; input) {
 				//if (tokens.find(c) == -1) {
 				if(find(tokens, c) == ""){
-					if (start == -1) start = i;
+					if (start == -1){
+						start = cast(int) i;
+					}
 				}
 				else {
 					if (start != -1) {
@@ -35,7 +37,9 @@ class DataTraitment {
 
 				}
 			}
-			if (start != -1) res ~= input[start..$];
+			if (start != -1){
+				res ~= input[start..$];
+			}
 			return res;
 		}
 

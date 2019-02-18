@@ -7,7 +7,7 @@ OBJECTS_PATH=$(foreach obj, $(OBJECTS), $(objectDirName)/$(obj))
 all: $(OBJECTS_PATH)
 
 $(objectDirName)/%$(objExt): %$(srcExt)
-	echo "$(CC) -of\"$@\" -c \"$(directory)/$<\" $(CFLAGS)" >> $(compilFile)
+	@echo "$(CC) -of\"$@\" -c \"$(directory)/$<\" $(CFLAGS)" >> $(compilFile)
 
 clean:
 	rm $(OBJECTS_PATH);

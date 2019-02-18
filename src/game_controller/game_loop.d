@@ -47,7 +47,7 @@ class GameLoop : Thread{
 						}
 					}
 				}
-			};
+			}
 
 		}
 	public:
